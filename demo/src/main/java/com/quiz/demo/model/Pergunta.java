@@ -9,7 +9,7 @@ public class Pergunta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String area_conhecimento;
     private String pergunta;
@@ -21,4 +21,52 @@ public class Pergunta {
 
     private int resposta;
     private String nivel;
+
+    public List<String> getAlternativas() {
+        return alternativas;
+    }
+
+    public void setAlternativas(List<String> alternativas) {
+        this.alternativas = alternativas;
+    }
+
+    public String getArea_conhecimento() {
+        return area_conhecimento;
+    }
+
+    public void setArea_conhecimento(String area_conhecimento) {
+        this.area_conhecimento = area_conhecimento;
+    }
+
+    public String getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(String nivel) {
+        this.nivel = nivel;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public int getResposta() {
+        return resposta;
+    }
+
+    public void setResposta(int resposta) {
+        this.resposta = resposta;
+    }
+
+    public String getPergunta() {
+        return pergunta;
+    }
+
+    public void setPergunta(String pergunta) {
+        this.pergunta = pergunta;
+    }
 }

@@ -20,7 +20,7 @@ public class Pergunta {
     private List<String> alternativas;
 
     private int resposta;
-    private String nivel;
+    private Nivel nivel;
 
     public List<String> getAlternativas() {
         return alternativas;
@@ -36,14 +36,6 @@ public class Pergunta {
 
     public void setArea_conhecimento(String area_conhecimento) {
         this.area_conhecimento = area_conhecimento;
-    }
-
-    public String getNivel() {
-        return nivel;
-    }
-
-    public void setNivel(String nivel) {
-        this.nivel = nivel;
     }
 
     public long getId() {
@@ -68,5 +60,13 @@ public class Pergunta {
 
     public void setPergunta(String pergunta) {
         this.pergunta = pergunta;
+    }
+
+    public Nivel getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(Nivel nivel) {
+        this.nivel = nivel;
     }
 }

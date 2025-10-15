@@ -14,7 +14,7 @@ public class Pergunta {
     private String area_conhecimento;
     private String pergunta;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "alternativas", joinColumns = @JoinColumn(name = "pergunta_id"))
     @Column(name = "alternativa")
     private List<String> alternativas;

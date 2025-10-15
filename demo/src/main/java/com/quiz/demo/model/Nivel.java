@@ -1,7 +1,7 @@
 package com.quiz.demo.model;
 
 public enum Nivel {
-    DICIL("dificil"),
+    DIFICIL("dificil"),
     FACIL("facil");
 
     private String nivel;

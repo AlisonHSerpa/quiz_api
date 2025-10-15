@@ -8,6 +8,4 @@ import java.util.List;
 
 public interface PerguntaRepository extends JpaRepository<Pergunta, Long> {
     Pergunta findPerguntaById(long id);
-
-    List<Pergunta> findPerguntaByNivel(Nivel nivel);
 }

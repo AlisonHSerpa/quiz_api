@@ -1,5 +1,6 @@
 package com.quiz.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,6 +14,7 @@ public class Jogador {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "time_id") // chave estrangeira na tabela Jogador
+    @JsonIgnore
     private Time time;
 
     public void setId(long id) {

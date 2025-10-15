@@ -1,42 +1,112 @@
 package com.quiz.demo.controller;
 
-import com.quiz.demo.model.Jogador;
 import com.quiz.demo.model.Pergunta;
-import com.quiz.demo.repository.JogadorRepository;
+import com.quiz.demo.model.Nivel;
 import com.quiz.demo.repository.PerguntaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+
+@RestController
 @RequestMapping("/pergunta")
 public class PerguntaController {
 
     @Autowired
     private PerguntaRepository perguntaRepository;
 
-    // criarPergunta() { cria uma nova pergunta e adiciona no bd }
+    private final Random random = new Random();
+
+    // Criar pergunta
     @PostMapping("/create")
-    public String createPergunta() {
-        return "index";
+    public ResponseEntity<Pergunta> createPergunta(@RequestBody Pergunta pergunta) {
+        Pergunta perguntaSaved = perguntaRepository.save(pergunta);
+        return ResponseEntity.ok(perguntaSaved);
     }
 
-    // removePergunta() { acha e retira uma pergunta do bd }
-    @DeleteMapping("/delete/{id}")
-    public String deletePergunta(@PathVariable long id) {
-        return "index";
-    }
-
-    @PutMapping("/edit/{id}")
-    public String editPergunta(@PathVariable long id) {
-        return "index";
-    }
-
+    // Buscar uma pergunta por ID
     @GetMapping("/{id}")
-    public String showPergunta(@PathVariable long id, Model model) {
-        Pergunta pergunta = perguntaRepository.findPerguntaById(id);
-        model.addAttribute("pergunta", pergunta);
-        return "placeholder";
+    public ResponseEntity<Pergunta> showPergunta(@PathVariable long id) {
+        Optional<Pergunta> pergunta = perguntaRepository.findById(id);
+        return pergunta.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    // Editar uma pergunta existente
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<Pergunta> editPergunta(@PathVariable long id, @RequestBody Pergunta updatedPergunta) {
+        Optional<Pergunta> existingPergunta = perguntaRepository.findById(id);
+
+        if (existingPergunta.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Pergunta pergunta = existingPergunta.get();
+        pergunta.setArea_conhecimento(updatedPergunta.getArea_conhecimento());
+        pergunta.setPergunta(updatedPergunta.getPergunta());
+        pergunta.setAlternativas(updatedPergunta.getAlternativas());
+        pergunta.setResposta(updatedPergunta.getResposta());
+        pergunta.setNivel(updatedPergunta.getNivel());
+
+        Pergunta saved = perguntaRepository.save(pergunta);
+        return ResponseEntity.ok(saved);
+    }
+
+    // Remover pergunta por ID
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deletePergunta(@PathVariable long id) {
+        if (!perguntaRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        perguntaRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // Puxar pergunta aleatória e remover do BD
+    @GetMapping("/random")
+    public ResponseEntity<Pergunta> puxarPerguntaAleatoria() {
+        List<Pergunta> perguntas = perguntaRepository.findAll();
+        if (perguntas.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        Pergunta pergunta = perguntas.get(random.nextInt(perguntas.size()));
+        perguntaRepository.delete(pergunta);
+        return ResponseEntity.ok(pergunta);
+    }
+
+    // Puxar pergunta difícil e remover do BD
+    @GetMapping("/dificil")
+    public ResponseEntity<Pergunta> puxarPerguntaDificil() {
+        List<Pergunta> perguntas = perguntaRepository.findAll()
+                .stream()
+                .filter(p -> p.getNivel() == Nivel.DIFICIL)
+                .toList();
+
+        if (perguntas.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Pergunta pergunta = perguntas.get(random.nextInt(perguntas.size()));
+        perguntaRepository.delete(pergunta);
+        return ResponseEntity.ok(pergunta);
+    }
+
+    // Puxar pergunta fácil e remover do BD
+    @GetMapping("/facil")
+    public ResponseEntity<Pergunta> puxarPerguntaFacil() {
+        List<Pergunta> perguntas = perguntaRepository.findAll()
+                .stream()
+                .filter(p -> p.getNivel() == Nivel.FACIL)
+                .toList();
+
+        if (perguntas.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Pergunta pergunta = perguntas.get(random.nextInt(perguntas.size()));
+        perguntaRepository.delete(pergunta);
+        return ResponseEntity.ok(pergunta);
     }
 }

@@ -18,6 +18,7 @@ public class Time {
     private int pontos;
 
     @OneToMany(mappedBy = "time", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Jogador> jogadores = new HashSet<>();
 
     public void setId(Long id) {

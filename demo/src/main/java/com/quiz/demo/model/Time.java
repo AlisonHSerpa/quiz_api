@@ -18,10 +18,9 @@ public class Time {
     @Column(nullable = false, unique = true)
     private String nome;
     private float pontos;
-    @JsonIgnore
     private int dicas;
 
-    @OneToMany(mappedBy = "time", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "time", fetch = FetchType.EAGER)
     private Set<Jogador> jogadores = new HashSet<>();
 
     public Long getId() {

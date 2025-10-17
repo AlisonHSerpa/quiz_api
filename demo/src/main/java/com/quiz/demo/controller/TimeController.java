@@ -23,6 +23,7 @@ public class TimeController {
             return ResponseEntity.badRequest().build();
         }
         time.setDicas(10);
+        time.getJogadores().removeIf(j -> j.getNome() == null);
         Time savedTime = timeRepository.save(time);
         return ResponseEntity.ok(savedTime);
     }

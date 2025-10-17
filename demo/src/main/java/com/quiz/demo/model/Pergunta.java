@@ -21,6 +21,7 @@ public class Pergunta {
     private List<String> alternativas;
 
     private int resposta;
+    @Enumerated(EnumType.STRING)
     private Nivel nivel;
 
     public List<String> getAlternativas() {

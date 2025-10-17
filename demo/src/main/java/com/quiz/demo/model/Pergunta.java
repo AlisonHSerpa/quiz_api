@@ -12,6 +12,7 @@ public class Pergunta {
     private long id;
 
     private String area_conhecimento;
+
     private String pergunta;
 
     @ElementCollection(fetch = FetchType.EAGER)

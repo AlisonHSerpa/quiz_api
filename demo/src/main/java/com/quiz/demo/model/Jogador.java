@@ -8,7 +8,11 @@ import jakarta.persistence.*;
 public class Jogador {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private long id;
+
+    @Column(nullable = false, unique = true)
     private String nome;
     private String especialidade;
 

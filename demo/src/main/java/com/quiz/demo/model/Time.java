@@ -2,7 +2,6 @@ package com.quiz.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import com.quiz.demo.model.Jogador;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,18 +11,17 @@ import java.util.Set;
 public class Time {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String nome;
-    private int pontos;
+    private float pontos;
+    private int dicas;
 
-    @OneToMany(mappedBy = "time", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(mappedBy = "time", fetch = FetchType.EAGER)
     private Set<Jogador> jogadores = new HashSet<>();
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getId() {
         return id;
@@ -45,11 +43,19 @@ public class Time {
         this.nome = nome;
     }
 
-    public int getPontos() {
+    public float getPontos() {
         return pontos;
     }
 
-    public void setPontos(int pontos) {
+    public void setPontos(float pontos) {
         this.pontos = pontos;
+    }
+
+    public int getDicas() {
+        return dicas;
+    }
+
+    public void setDicas(int dicas) {
+        this.dicas = dicas;
     }
 }

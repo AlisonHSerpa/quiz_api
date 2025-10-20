@@ -12,6 +12,7 @@ public class Pergunta {
     private long id;
 
     private String area_conhecimento;
+
     private String pergunta;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "imagem_id", referencedColumnName = "id")
@@ -23,6 +24,7 @@ public class Pergunta {
     private List<String> alternativas;
 
     private int resposta;
+    @Enumerated(EnumType.STRING)
     private Nivel nivel;
 
     public Imagem getImagem() {

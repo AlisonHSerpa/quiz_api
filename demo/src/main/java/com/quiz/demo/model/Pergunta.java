@@ -14,6 +14,9 @@ public class Pergunta {
     private String area_conhecimento;
 
     private String pergunta;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "imagem_id", referencedColumnName = "id")
+    private Imagem imagem;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "alternativas", joinColumns = @JoinColumn(name = "pergunta_id"))
@@ -24,9 +27,18 @@ public class Pergunta {
     @Enumerated(EnumType.STRING)
     private Nivel nivel;
 
+    public Imagem getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(Imagem imagem) {
+        this.imagem = imagem;
+    }
+
     public List<String> getAlternativas() {
         return alternativas;
     }
+
 
     public void setAlternativas(List<String> alternativas) {
         this.alternativas = alternativas;

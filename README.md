@@ -184,7 +184,7 @@ Parâmetro de Path: `id` (long) - O ID do time.
 
 **404 Not Found:** Se o time não for encontrado.
 
-### PUT /time/edit/{id}
+### PUT `/time/edit/{id}`
 Descrição: Edita as informações de um time (nome, pontos e lista de jogadores).
 
 Parâmetro de Path: `id` (long) - O ID do time a ser editado.
@@ -197,7 +197,7 @@ Request Body: `Time` (campos a atualizar)
 
 **404 Not Found:** Se o time não for encontrado.
 
-### DELETE /time/delete/{id}
+### DELETE `/time/delete/{id}`
 Descrição: Remove um time do sistema.
 
 Parâmetro de Path: `id` (long) - O ID do time a ser removido.

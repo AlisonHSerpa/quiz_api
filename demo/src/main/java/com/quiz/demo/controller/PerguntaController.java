@@ -143,6 +143,24 @@ public class PerguntaController {
         return ResponseEntity.ok(pergunta);
     }
 
+    // Puxar pergunta médio e remover do BD
+    @GetMapping("/medio")
+    public ResponseEntity<Pergunta> puxarPerguntaMedio() {
+        List<Pergunta> perguntas = perguntaRepository.findAll().stream()
+                .filter(p -> p.getNivel() == Nivel.MEDIO)
+                .toList();
+
+        if (perguntas.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Pergunta pergunta = perguntas.get(random.nextInt(perguntas.size()));
+        perguntaRepository.delete(pergunta);
+        
+        processarBase64(pergunta); // Processa Base64 antes de retornar
+        return ResponseEntity.ok(pergunta);
+    }
+
     // Puxar pergunta fácil e remover do BD
     @GetMapping("/facil")
     public ResponseEntity<Pergunta> puxarPerguntaFacil() {
